@@ -2,7 +2,7 @@
 
 // Function to run the script when the window loads
 window.onload = function() {
-    // Constructor function to create a dog object
+    // Dog constructor function
     function Dog(name, breed, show, characterType, mySound, canTalk) {
         this.name = name;
         this.breed = breed;
@@ -11,38 +11,33 @@ window.onload = function() {
         this.mySound = mySound;
         this.canTalk = canTalk;
         this.myGreeting = function() {
-            const talkMessage = this.canTalk ? "I can talk!" : "I cannot talk.";
-            return Hello, my name is ${this.name}. When I bark, I am not scary. I starred in the TV show ${this.show}. My character was a ${this.breed}. Can I talk? ${talkMessage};
+            return `Hello, my name is ${this.name}. When I bark, I am not scary. I starred in the TV show ${this.show}. My character was a ${this.breed}. I was the family dog in a cartoon about a family in the future. Can I talk? ${this.canTalk ? "I can talk!" : "I cannot talk."}`;
         };
     }
 
-    // Create two new dog objects
-    const scoobyDoo = new Dog("Scooby-Doo", "Great Dane", "Scooby-Doo, Where Are You!", "cartoon", "Scooby-Doo, where are you!", true);
-    const snoopy = new Dog("Snoopy", "Beagle", "Peanuts", "cartoon", "Good grief!", false);
+    // Create two new dog objects using the constructor function
+    const scooby = new Dog("Scooby-Doo", "Great Dane", "Scooby-Doo, Where Are You!", "cartoon", "Scooby-Dooby-Doo!", true);
+    const brian = new Dog("Brian", "Labrador Retriever", "Family Guy", "cartoon", "I can talk and drink martinis.", true);
 
-    // Store the dog objects in an array
-    const dogs = [scoobyDoo, snoopy];
-
-    // Use a for...in loop to display each property and value for each dog
-    let dogInfo = "";
-    for (const dog of dogs) {
-        for (const prop in dog) {
-            if (typeof dog[prop] !== 'function') {
-                dogInfo += ${prop}: ${dog[prop]}<br>;
+    // Display each dog's properties using a for...in loop
+    const dogs = [scooby, brian];
+    dogs.forEach(dog => {
+        for (let property in dog) {
+            if (dog.hasOwnProperty(property) && typeof dog[property] !== 'function') {
+                document.body.innerHTML += `${property}: ${dog[property]}<br>`;
             }
         }
-        dogInfo += "<br>";
-    }
-    document.getElementById("dog-info").innerHTML = dogInfo;
+        document.body.innerHTML += `<br>`;
+    });
 
-    // Prompt the user to select a dog by typing in one of the dog's names
-    const selectedDogName = prompt("Please type the name of the dog (Scooby-Doo or Snoopy):");
+    // Prompt the user to select one of the dogs
+    let selectedDogName = prompt("Please select a dog by typing its name: Scooby-Doo or Brian");
+    let selectedDog = dogs.find(dog => dog.name.toLowerCase() === selectedDogName.toLowerCase());
 
-    // Find the selected dog and display its information
-    const selectedDog = dogs.find(dog => dog.name === selectedDogName);
+    // Display information about the selected dog
     if (selectedDog) {
-        document.getElementById("selected-dog-info").innerHTML = selectedDog.myGreeting();
+        document.body.innerHTML += `<p>${selectedDog.myGreeting()}</p>`;
     } else {
-        document.getElementById("selected-dog-info").innerHTML = "The dog you selected does not exist.";
+        document.body.innerHTML += `<p>The dog you selected doesn't exist.</p>`;
     }
 };
